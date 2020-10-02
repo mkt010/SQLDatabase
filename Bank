@@ -1,0 +1,206 @@
+CREATE TABLE customer(
+	custID NUMBER (9) NOT NULL PRIMARY KEY,
+	fname VARCHAR(30),
+	lname VARCHAR(30),
+	dob DATE,
+	phone NUMBER(10),
+	street VARCHAR(30),
+	city VARCHAR(30),
+	state VARCHAR(2),
+	zip NUMBER(5),
+email VARCHAR(30)
+);
+
+CREATE TABLE manager(
+	mgrID NUMBER(9) NOT NULL PRIMARY KEY,
+	fname VARCHAR(30),
+	lname VARCHAR(30),
+	dob DATE,
+	phone NUMBER(10),
+	street VARCHAR(64),
+	city VARCHAR(64),
+	state VARCHAR(2),
+	zip NUMBER(5),
+email VARCHAR(64),
+username VARCHAR(64),
+password VARCHAR(64)
+);
+
+CREATE TABLE employee(
+	empID NUMBER(9) NOT NULL PRIMARY KEY,
+	fname VARCHAR(30),
+	lname VARCHAR(30),
+	dob DATE,
+	phone NUMBER(10),
+	street VARCHAR(64),
+	city VARCHAR(64),
+	state VARCHAR(2),
+	zip NUMBER(5),
+email VARCHAR(64),
+username VARCHAR(64),
+password VARCHAR(64),
+mgrID,
+FOREIGN KEY (mgrID) REFERENCES manager(mgrID)
+);
+
+
+CREATE TABLE type(
+	typeID NUMBER NOT NULL PRIMARY KEY,
+	typeDesc VARCHAR(64),
+	intRt NUMBER(10,2),
+	mgrID,
+	FOREIGN KEY(mgrID) REFERENCES manager(mgrID)
+);
+
+CREATE TABLE  account(
+	acctNum NUMBER NOT NULL PRIMARY KEY,
+	openDate DATE,
+	balance NUMBER(10,2),
+	status VARCHAR(30),
+	typeID,
+	custID,
+	FOREIGN KEY (typeID) REFERENCES type(typeID),
+	FOREIGN KEY (custID) REFERENCES customer(custID)
+);
+
+CREATE TABLE transaction(
+  	transID NUMBER NOT NULL PRIMARY KEY,
+  	amount NUMBER(10,2),
+  	transDate DATE,
+acctNum,
+empID,
+FOREIGN KEY (acctNum) REFERENCES account(acctNum),
+FOREIGN KEY (empID) REFERENCES employee(empID)
+);
+
+INSERT INTO customer (custID, fName, lName, dob,phone,street,city,state,zip,email) 
+VALUES(123456789, 'Mary', 'Thomas', DATE '1978-04-26', '1234567890', '8 Flint Ct', 'Pinehurst', 'NC', '28374', 'mkt@email.com');
+
+INSERT INTO customer (custID, fName, lName, dob,phone,street,city,state,zip,email) 
+VALUES(234567891, 'Isabelle', 'Squirrel', DATE '1980-01-01', '1234567891','1 First St', 'Anywhere', 'NC', '12345', 'email@email.com');
+
+INSERT INTO customer (custID, fName, lName, dob,phone,street,city,state,zip,email) 
+VALUES(345678912, 'Justin', 'Frog', DATE '1981-10-01', '1234567892', '2 Second St', 'Anywhere', 'NC', '12345', 'email2@email.com');
+
+INSERT INTO customer (custID, fName, lName, dob,phone,street,city,state,zip,email) 
+VALUES(456789123, 'Pepper', 'Dog', DATE '1920-05-01', '1234567893', '2 Second St', 'Anywhere', 'NC', '12345', NULL);
+
+INSERT INTO customer (custID, fName, lName, dob,phone,street,city,state,zip,email) 
+VALUES(567891234, 'Spicy', 'Chicken', DATE '1950-10-01', '1234567894', '10 Happy St', 'Blissful', 'NC', '12382', NULL);
+
+
+ALTER TABLE CUSTOMER
+MODIFY STREET VARCHAR(30);
+
+ALTER TABLE CUSTOMER
+MODIFY CITY VARCHAR(30);
+
+ALTER TABLE CUSTOMER
+MODIFY EMAIL VARCHAR(30);
+
+
+INSERT INTO manager (mgrID, fName, lName, dob,phone,street,city,state,zip,email, username, password) 
+VALUES(1, 'Spicy', 'Chicken', DATE '1950-10-01', '1234567894', '10 Happy St', 'Blissful', 'NC', '12382', NULL, 'un1', 'pw1');
+
+INSERT INTO manager (mgrID, fName, lName, dob,phone,street,city,state,zip,email, username, password) 
+VALUES(2, 'Super', 'Man', DATE '1985-10-01', '1234567895', '10 Cryptonite St', 'Blissful', 'NC', '12382', NULL, 'un2', 'pw2');
+
+INSERT INTO manager (mgrID, fName, lName, dob,phone,street,city,state,zip,email, username, password) 
+VALUES(3, 'Super', 'Man', DATE '1985-10-01', '1234567895', '10 Cryptonite St', 'Blissful', 'NC', '12382', 'mgremail@email.com', 'un3', 'pw3');
+
+INSERT INTO manager (mgrID, fName, lName, dob,phone,street,city,state,zip,email, username, password) 
+VALUES(4, 'Spider', 'Man', DATE '1985-10-01', '1234567895', '103 Web St', 'Enemy', 'NC', '12382', NULL, NULL, NULL);
+
+INSERT INTO manager (mgrID, fName, lName, dob,phone,street,city,state,zip,email, username, password) 
+VALUES(5, 'RunningOut', 'OfIdeas', DATE '1901-03-05', '1234567895', '10 Cryptonite St', 'Blissful', 'NC', '12382','idontknow@email.com', 'ape', '123');
+
+ALTER TABLE manager
+MODIFY STREET VARCHAR(30);
+
+ALTER TABLE manager
+MODIFY CITY VARCHAR(30);
+
+ALTER TABLE manager
+MODIFY EMAIL VARCHAR(30);
+
+ALTER TABLE manager
+MODIFY username VARCHAR(30);
+
+ALTER TABLE manager
+MODIFY password VARCHAR(30);
+
+INSERT INTO employee (empID, fName, lName, dob,phone,street,city,state,zip,email, username, password, mgrID) 
+VALUES(1, 'Hope', 'Love', DATE '1982-10-01', '9108851234', '21 Jump St', 'Havoc', 'NC', '54321', 'love@email.com', 'love', 'password','1');
+
+INSERT INTO employee (empID, fName, lName, dob,phone,street,city,state,zip,email, username, password,mgrID) 
+VALUES(2, 'Run', 'Jump', DATE '1962-8-05', '9102358791', '105 Rubber St', 'Trampoline', 'NC', '65478', 'jump@email.com', 'run', '1234','5');
+
+INSERT INTO employee (empID, fName, lName, dob,phone,street,city,state,zip,email, username, password,mgrID) 
+VALUES(3, 'Harry', 'Potter', DATE '1998-30-15', '9876541230', '82 Wizard Rd', 'Tunnel', 'NC', '82456', 'potter@email.com', 'harry', 'potter','1');
+
+INSERT INTO employee (empID, fName, lName, dob,phone,street,city,state,zip,email, username, password,mgrID) 
+VALUES(4, 'Spider', 'Man', DATE '1985-10-01', '1234567895', '103 Web St', 'Enemy', 'NC', '12382', NULL, NULL, NULL,2);
+
+INSERT INTO employee (empID, fName, lName, dob,phone,street,city,state,zip,email, username, password, mgrID) 
+VALUES(5, 'RunningOut', 'OfIdeas', DATE '1901-03-05', '1234567895', '10 Cryptonite St', 'Blissful', 'NC', '12382','idontknow@email.com', 'ape', '123',3);
+
+ALTER TABLE employee
+MODIFY STREET VARCHAR(30);
+
+ALTER TABLE employee
+MODIFY CITY VARCHAR(30);
+
+ALTER TABLE employee
+MODIFY EMAIL VARCHAR(30);
+
+ALTER TABLE employee
+MODIFY username VARCHAR(30);
+
+ALTER TABLE employee
+MODIFY password VARCHAR(30);
+
+INSERT INTO type (typeID, typeDesc, intRt, mgrID)
+VALUES (1, 'Checking', '1.00', '1');
+
+INSERT INTO type (typeID, typeDesc, intRt, mgrID)
+VALUES (2, 'Savings', '1.20', '5');
+
+INSERT INTO type (typeID, typeDesc, intRt, mgrID)
+VALUES (3, 'Credit Card', '22', '1');
+
+INSERT INTO type (typeID, typeDesc, intRt, mgrID)
+VALUES (4, 'Personal Loan', '25.5', '3');
+
+INSERT INTO type (typeID, typeDesc, intRt, mgrID)
+VALUES (5, 'Auto Loan', '3.2', '2');
+
+INSERT INTO account (acctNum, openDate, balance, status, typeID, custID)
+VALUES(1, DATE '2020-04-04', '0','open', '1', '123456789');
+
+INSERT INTO account (acctNum, openDate, balance, status, typeID, custID)
+VALUES(2, DATE '2019-12-31', '0','open', '2', '123456789');
+
+INSERT INTO account (acctNum, openDate, balance, status, typeID, custID)
+VALUES(3, DATE '2000-01-01', '500.00','open', '4', '234567891');
+
+INSERT INTO account (acctNum, openDate, balance, status, typeID, custID)
+VALUES(4, DATE '2010-08-25', '32000.85','open', '5', '456789123');
+
+INSERT INTO account (acctNum, openDate, balance, status, typeID, custID)
+VALUES(5, DATE '2001-04-04', '801.52','open', '3', '567891234');
+
+INSERT INTO transaction(transID, amount, transDate, acctNum, empID)
+VALUES(1, '100.00', DATE '2020-04-05', '1', '1');
+
+INSERT INTO transaction(transID, amount, transDate, acctNum, empID)
+VALUES(2, '-50.00', DATE '2020-04-06', '1', '2');
+
+INSERT INTO transaction(transID, amount, transDate, acctNum, empID)
+VALUES(3, '-25.00', DATE '2001-02-01', '3', '5');
+
+INSERT INTO transaction(transID, amount, transDate, acctNum, empID)
+VALUES(4, '52.25', DATE '2019-04-05', '2', '4');
+
+INSERT INTO transaction(transID, amount, transDate, acctNum, empID)
+VALUES(5, '0.25', DATE '2020-04-05', '2', '1');
+Customer Table:
